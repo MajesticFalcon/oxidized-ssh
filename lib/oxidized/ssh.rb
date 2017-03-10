@@ -3,9 +3,7 @@ require 'net/ssh'
 require 'timeout'
 module Oxidized
   class Ssh
-    # Your code goes here...
-    # class SSH
-  
+
       attr_reader :connection, :ip, :username, :password
       attr_reader :prompt, :verbosity, :exec, :pty_options
       attr_reader :port, :output, :session
@@ -33,10 +31,7 @@ module Oxidized
       def exec!(params)
         check_for_connection
         exec(params)
-        # @session.close
-        # disconnect
-        
-        @output
+        @output.gsub(/\r\n/,/\n/)
       end
       
       def check_for_connection
