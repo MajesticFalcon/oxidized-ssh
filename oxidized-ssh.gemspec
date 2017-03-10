@@ -1,35 +1,33 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'oxidized/ssh/version'
+require 'oxidized/version'
 
-Gem::Specification.new do |spec|
-  spec.name          = "oxidized-ssh"
-  spec.version       = Oxidized::Ssh::VERSION
-  spec.authors       = ["Schylar"]
-  spec.email         = ["schylarutley@hotmail.com"]
+Gem::Specification.new do |s|
+  s.name         = "oxidized-ssh"
+  s.version       = Oxidized::Ssh::VERSION
+  s.authors      = ["Schylar"]
+  s.email         = ["sutley@cwep.com"]
+  s.licenses      = %w( Apache-2.0 )
+  s.platform     = Gem::Platform::RUBY
+  s.homepage  = 'http://github.com/MajesticFalcon/oxidized-ssh'
+  s.summary    = 'Robust SSH client'
+  s.description  = 'SSH client that supports shell and exec channels'
+  s.rubyforge_project = s.name
+  s.files             = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
+  s.require_path      = 'lib'
 
-  spec.summary       = %q{Robust SSH functionality for exec and shell SSH servers}
-  spec.description   = %q{This gems goal is two fold. To extract SSH functionality away from oxidized specifically, and give the community the same SSH functionality for thier own software}
-  spec.homepage      = "https://github.com/MajesticFalcon/oxidized-ssh"
-  spec.license       = "MIT"
+  s.required_ruby_version =           '>= 2.0.0'
+  s.add_runtime_dependency 'net-ssh', '~> 3.0.2'
+  s.add_runtime_dependency 'rugged',  '~> 0.21',  '>= 0.21.4'
 
-  # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
-  # to allow pushing to a single host or delete this section to allow pushing to any host.
-  if spec.respond_to?(:metadata)
-    spec.metadata['allowed_push_host'] = "TODO: Set to 'http://mygemserver.com'"
-  else
-    raise "RubyGems 2.0 or newer is required to protect against " \
-      "public gem pushes."
+  if defined?(RUBY_VERSION) && RUBY_VERSION > '2.3'
+      s.add_runtime_dependency 'net-telnet', '~> 0'
   end
 
-  spec.files         = `git ls-files -z`.split("\x0").reject do |f|
-    f.match(%r{^(test|spec|features)/})
-  end
-  spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
-  spec.require_paths = ["lib"]
-
-  spec.add_development_dependency "bundler", "~> 1.13"
-  spec.add_development_dependency "rake", "~> 10.0"
+  s.add_development_dependency 'pry',      '~> 0'
+  s.add_development_dependency 'bundler',  '~> 1.10'
+  s.add_development_dependency 'rake',     '~> 10.0'
+  s.add_development_dependency 'minitest', '~> 5.8'
+  s.add_development_dependency 'mocha',    '~> 1.1'
 end
