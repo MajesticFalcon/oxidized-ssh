@@ -1,5 +1,5 @@
 module Oxidized
-  module SSH
-    VERSION = "0.1.0"
+  module Ssh
+    VERSION = "0.1.1.1"
   end
 end

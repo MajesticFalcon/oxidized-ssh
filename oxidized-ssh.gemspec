@@ -1,7 +1,7 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'oxidized/version'
+require 'oxidized/ssh/version'
 
 Gem::Specification.new do |s|
   s.name         = "oxidized-ssh"
@@ -14,12 +14,10 @@ Gem::Specification.new do |s|
   s.summary    = 'Robust SSH client'
   s.description  = 'SSH client that supports shell and exec channels'
   s.rubyforge_project = s.name
-  s.files             = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   s.require_path      = 'lib'
-
+  s.files            = ["lib/oxidized/ssh.rb", "lib/oxidized/ssh/version.rb"]
   s.required_ruby_version =           '>= 2.0.0'
   s.add_runtime_dependency 'net-ssh', '~> 3.0.2'
-  s.add_runtime_dependency 'rugged',  '~> 0.21',  '>= 0.21.4'
 
   if defined?(RUBY_VERSION) && RUBY_VERSION > '2.3'
       s.add_runtime_dependency 'net-telnet', '~> 0'

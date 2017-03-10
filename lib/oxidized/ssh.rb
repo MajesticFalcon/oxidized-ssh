@@ -1,8 +1,9 @@
 require_relative "ssh/version"
 require 'net/ssh'
 require 'timeout'
+
 module Oxidized
-  class Ssh
+  class SSH
 
       attr_reader :connection, :ip, :username, :password
       attr_reader :prompt, :verbosity, :exec, :pty_options
@@ -31,7 +32,7 @@ module Oxidized
       def exec!(params)
         check_for_connection
         exec(params)
-        @output.gsub(/\r\n/,/\n/)
+        @output.gsub(/\r\n/,"\n")
       end
       
       def check_for_connection
@@ -110,12 +111,12 @@ module Oxidized
         @output = ''
       end
       
-       def disconnect
+      def disconnect
         Timeout::timeout(5) { @connection.loop }
         rescue Errno::ECONNRESET, Net::SSH::Disconnect, IOError
         ensure
-      (@connection.close rescue true) unless @connection.closed?
-    end
+        (@connection.close rescue true) unless @connection.closed?
+      end
       
   end
 end
