@@ -21,13 +21,13 @@ Or install it yourself as:
     $ gem install oxidized-ssh
 
 ## Usage
-
+```
 ssh = Oxidized::Ssh.new({ip: 'redacted', username: 'admin', password: 'redacted', verbosity: :debug, exec: false, prompt: /^(\r*[\w.@():-]+[>]\s?)$/})
 
 ssh.start
 ssh.exec!("setline 0")
 output = ssh.exec!("onu show 1/1/1")
-
+```
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
