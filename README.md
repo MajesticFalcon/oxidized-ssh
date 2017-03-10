@@ -33,14 +33,23 @@ output = ssh.exec!("onu show 1/1/1")
 Todo:
 
   Add logging support
+
   Add oxidized support (Mass refactor)
+
     *Proxy Support
+
     *Paranoid support
+
     *Auth_method support
+
     *Kex support
+
     *Encryption support
+
     *Login with expect supprot
+
     *Mimic method names
+
       *Mimic method return values as well 
 
 

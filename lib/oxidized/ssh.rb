@@ -20,6 +20,7 @@ module Oxidized
         @pty_options = options[:pty_options] ||= { term: "vt100" }
         @port = options[:port] ||= 22
         @output = String.new
+        @logger = options[:logger] ||= Logger.new(STDOUT)
       end
       
       def start
@@ -43,6 +44,7 @@ module Oxidized
       end
       
       def exec(params)
+        @logger.debug "sending command #{params} with expectation of #{@prompt}"
         if @exec
           @connection.exec!(params)
         else
@@ -65,6 +67,7 @@ module Oxidized
       
       def expect *regexps
         regexps = [regexps].flatten
+        @logger.debug "expecting #{regexps.inspect} at #{@ip}"
         @connection.loop(0.1) do
           sleep 0.1
           match = regexps.find { |regexp| @output.match regexp }
