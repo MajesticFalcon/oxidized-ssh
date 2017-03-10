@@ -7,11 +7,11 @@ Gem::Specification.new do |spec|
   spec.name          = "oxidized-ssh"
   spec.version       = Oxidized::Ssh::VERSION
   spec.authors       = ["Schylar"]
-  spec.email         = ["sutley@cwep.com"]
+  spec.email         = ["schylarutley@hotmail.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{Robust SSH functionality for exec and shell SSH servers}
+  spec.description   = %q{This gems goal is two fold. To extract SSH functionality away from oxidized specifically, and give the community the same SSH functionality for thier own software}
+  spec.homepage      = "https://github.com/MajesticFalcon/oxidized-ssh"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
