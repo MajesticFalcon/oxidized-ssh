@@ -101,7 +101,7 @@ module Oxidized
       
       def set_data_hook(ch)
         ch.on_data do |_ch, data|
-          @logger.debug "received #{data}"
+          # @logger.debug "received #{data}"
           @output << data
           @output = expectation_list_handler(@output) if @expectation_handler
         end
