@@ -46,8 +46,6 @@ Todo:
 
     *Encryption support
 
-    *Login with expect supprot
-
     *Mimic method names
 
       *Mimic method return values as well 
