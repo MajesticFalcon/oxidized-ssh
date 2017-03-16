@@ -34,7 +34,9 @@ module Oxidized
       def exec!(params)
         check_for_connection
         exec(params)
-        @output.gsub(/\r\n/,"\n")
+        sanitize_output_buffer("\n", /\r\n/)
+        sanitize_output_buffer('', @prompt, params)
+        @output
       end
       
       def check_for_connection
@@ -125,6 +127,11 @@ module Oxidized
       
       def reset_output_buffer
         @output = ''
+      end
+      
+      def sanitize_output_buffer sub, *regexs
+        # @logger.debug "sanitizing #{regexs.join("|")} with #{sub}"
+        @output.gsub!(/#{regexs.join("|")}/, sub)
       end
       
       def disconnect
