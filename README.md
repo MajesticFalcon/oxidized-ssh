@@ -22,17 +22,26 @@ Or install it yourself as:
 
 ## Usage
 ```
-ssh = Oxidized::Ssh.new({ip: 'redacted', username: 'admin', password: 'redacted', verbosity: :debug, exec: false, prompt: /^(\r*[\w.@():-]+[>]\s?)$/})
-
+For exec channels
+ssh = Oxidized::SSH.new({ip: 'redacted', username: 'admin', password: 'redacted', exec: true)
 ssh.start
-ssh.exec!("setline 0")
-output = ssh.exec!("onu show 1/1/1")
+ssh.exec!("ifconfig")
+
+For shell channels
+host = Oxidized::SSH.new({ip: 'redacted', prompt: Regexp.new(/^Vty-[0-9]\#$/), username: 'admin', password: password)
+host.start
+host.exec!("ifconfig")
+
+For shell channels that need custom expectation handles                                                                                                                           #[class to call method on, method to call]
+host = Oxidized::SSH.new({ip: 'redacted', prompt: Regexp.new(/^Vty-[0-9]\#$/), username: 'admin', password: password, expectation_handler: [b, :expects]})
+host.start
+host.exec!("show running-config")
+
 ```
 ## Development
 
 Todo:
 
-  Add logging support
 
   Add oxidized support (Mass refactor)
 

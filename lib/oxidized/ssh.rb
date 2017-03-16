@@ -7,14 +7,15 @@ module Oxidized
   class SSH
 
       attr_reader :connection, :ip, :username, :password
-      attr_reader :prompt, :verbosity, :exec, :pty_options
+      attr_reader :prompt, :debug, :exec, :pty_options
       attr_reader :port, :output, :session
       
       def initialize(options)
         @ip = options[:ip]
         @username = options[:username]
         @password = options[:password]
-        @verbosity = options[:verbosity]
+        @verbose = options[:verbose]
+        @debug = options[:debug]
         @prompt = options[:prompt]
         @exec = options[:exec]
         @pty_options = options[:pty_options] ||= { term: "vt100" }
@@ -26,7 +27,7 @@ module Oxidized
       
       def start
         raise "MissingSSHLibrary" if !defined? Net::SSH
-        @connection = Net::SSH.start(@ip, @username, password: @password, verbose: @verbosity, port: @port)
+        @connection = Net::SSH.start(@ip, @username, password: @password, verbose: @verbose, port: @port)
         return yield self if block_given?
         return (@connection and not @connection.closed?)
       end
@@ -44,7 +45,7 @@ module Oxidized
       end
       
       def exec(params)
-        @logger.debug "sending command #{params} with expectation of #{@prompt}"
+        @logger.debug "sending command #{params} with expectation of #{@prompt}" if @debug
         if @exec
           @connection.exec!(params)
         else
@@ -72,7 +73,7 @@ module Oxidized
       
       def expect *regexps
         regexps = [regexps].flatten
-        @logger.debug "expecting #{regexps.inspect} at #{@ip}"
+        @logger.debug "expecting #{regexps.inspect} at #{@ip}" if @debug
         @connection.loop(0.1) do
           sleep 0.1
           match = regexps.find { |regexp| @output.match regexp }
@@ -103,7 +104,7 @@ module Oxidized
       
       def set_data_hook(ch)
         ch.on_data do |_ch, data|
-          # @logger.debug "received #{data}"
+          @logger.debug "received #{data}" if @debug
           @output << data
           @output = expectation_list_handler(@output) if @expectation_handler
         end
@@ -130,7 +131,7 @@ module Oxidized
       end
       
       def sanitize_output_buffer sub, *regexs
-        # @logger.debug "sanitizing #{regexs.join("|")} with #{sub}"
+        @logger.debug "sanitizing #{regexs.join("|")} with #{sub}" if @debug
         @output.gsub!(/#{regexs.join("|")}/, sub)
       end
       
