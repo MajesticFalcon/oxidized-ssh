@@ -36,7 +36,7 @@ module Oxidized
         check_for_connection
         exec(params)
         sanitize_output_buffer("\n", /\r\n/)
-        sanitize_output_buffer('', @prompt, params)
+        sanitize_output_buffer('', params)
         @output
       end
       
