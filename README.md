@@ -44,6 +44,12 @@ Todo:
 
 
   Add oxidized support (Mass refactor)
+    
+    *connected?
+    *cmd(cmd, expect=node.prompt)
+    *send(data)
+    *output
+    *pty_options(hash)
 
     *Proxy Support
 
