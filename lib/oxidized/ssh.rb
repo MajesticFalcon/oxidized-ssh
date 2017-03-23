@@ -45,10 +45,11 @@ module Oxidized
       end
       
       def exec(params)
-        @logger.debug "sending command #{params} with expectation of #{@prompt}" if @debug
         if @exec
-          @connection.exec!(params)
+          @logger.debug "sending exec command #{params}"
+          @output  = @connection.exec!(params)
         else
+          @logger.debug "sending command #{params} with expectation of #{@prompt}" if @debug
           collect_output(params)
         end
       end
