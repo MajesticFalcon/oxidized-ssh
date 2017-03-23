@@ -32,9 +32,9 @@ module Oxidized
         return (@connection and not @connection.closed?)
       end
       
-      def exec!(params)
+      def exec!(params, expect = @prompt)
         check_for_connection
-        exec(params)
+        exec(params, expect)
         sanitize_output_buffer("\n", /\r\n/)
         sanitize_output_buffer('', params)
         @output
@@ -44,27 +44,27 @@ module Oxidized
         prep_connection unless @session
       end
       
-      def exec(params)
+      def exec(params, expectation)
         if @exec
           @logger.debug "sending exec command #{params}" if @debug
           @output  = @connection.exec!(params)
         else
-          @logger.debug "sending command #{params} with expectation of #{@prompt}" if @debug
-          collect_output(params)
+          @logger.debug "sending command #{params} with expectation of #{expectation}" if @debug
+          collect_output(params, expectation)
         end
       end
       
-      def collect_output(params)
-        send_data((params + "\n"))
+      def collect_output(params, expectation)
+        send_data((params + "\n"), expectation)
         return @output
       end
       
-      def send_data(params)
-        expect @prompt
+      def send_data(params, expectation)
+        expect expectation
         reset_output_buffer
         send(params)
         @session.process
-        expect @prompt
+        expect expectation
         @output
       end
       
