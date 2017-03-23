@@ -8,7 +8,7 @@ module Oxidized
 
       attr_reader :connection, :ip, :username, :password
       attr_reader :prompt, :debug, :exec, :pty_options
-      attr_reader :port, :output, :session
+      attr_reader :port, :output, :session, :connected
       
       def initialize(options)
         @ip = options[:ip]
@@ -71,6 +71,7 @@ module Oxidized
         return @output
       end
       
+      #Taking place of cmd_shell
       def send_data(params, expectation)
         expect expectation
         reset_output_buffer
@@ -80,8 +81,8 @@ module Oxidized
         @output
       end
       
-      def send(params)
-        @session.send_data params
+      def send data
+        @session.send_data data
       end
       
       def expect *regexps
@@ -104,9 +105,15 @@ module Oxidized
         create_session
       end
       
+      #Taking place of Oxidized::Model.open_shell
       def create_session
         @session = @connection.open_channel do |channel|
           setup_channels(channel)
+          #begin
+            #login method should go here
+           #rescue Timeout::Error
+             #raise PromptUndetect, [ @output, 'not matching configured prompt', @node.prompt ].join(' ')
+           #end
         end
       end
       
@@ -153,6 +160,10 @@ module Oxidized
         rescue Errno::ECONNRESET, Net::SSH::Disconnect, IOError
         ensure
         (@connection.close rescue true) unless @connection.closed?
+      end
+      
+      def connected?
+        @connection and not @connection.closed?
       end
       
   end
