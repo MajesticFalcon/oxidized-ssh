@@ -142,6 +142,10 @@ module Oxidized
         ensure
         (@connection.close rescue true) unless @connection.closed?
       end
+	
+      def connected?
+        @connection.closed?
+      end
       
   end
 end
