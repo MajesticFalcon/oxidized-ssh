@@ -4,7 +4,7 @@ require 'timeout'
 require 'awesome_print'
 
 module Oxidized
-  class SSH
+  class SSHWrapper
 
       attr_reader :connection, :ip, :username, :password
       attr_reader :prompt, :debug, :exec, :pty_options
