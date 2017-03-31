@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.description  = 'SSH client that supports shell and exec channels'
   s.rubyforge_project = s.name
   s.require_path      = 'lib'
-  s.files            = ["lib/oxidized/ssh.rb", "lib/oxidized/ssh/version.rb"]
+  s.files            = ["lib/oxidized/sshwrapper.rb", "lib/oxidized/ssh/version.rb"]
   s.required_ruby_version =           '>= 2.0.0'
   s.add_runtime_dependency 'net-ssh', '~> 3.0.2'
 
