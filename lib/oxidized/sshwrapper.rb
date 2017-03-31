@@ -37,6 +37,7 @@ module Oxidized
         exec(params, expect)
         sanitize_output_buffer("\n", /\r\n/)
         sanitize_output_buffer('', params)
+	binding.pry
         @output
       end
       

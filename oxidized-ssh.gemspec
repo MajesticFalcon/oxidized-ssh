@@ -5,7 +5,7 @@ require 'oxidized/ssh/version'
 
 Gem::Specification.new do |s|
   s.name         = "oxidized-ssh"
-  s.version       = Oxidized::Ssh::VERSION
+  s.version       = Oxidized::SSHWrapper::VERSION
   s.authors      = ["Schylar"]
   s.email         = ["sutley@cwep.com"]
   s.licenses      = %w( Apache-2.0 )
