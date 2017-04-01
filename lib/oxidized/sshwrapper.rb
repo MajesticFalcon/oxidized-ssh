@@ -8,10 +8,11 @@ module Oxidized
   class SSHWrapper
 
       attr_reader :connection, :ip, :username, :password
-      attr_reader :prompt, :debug, :exec, :pty_options
+      attr_reader :prompt, :debug, :exec
       attr_reader :port, :output, :session
 
       attr_writer :login, :username_prompt, :password_prompt
+      attr_writer :pty_options
       
       def initialize(options)
         @ip = options[:ip]
