@@ -2,6 +2,7 @@ require_relative "ssh/version"
 require 'net/ssh'
 require 'timeout'
 require 'awesome_print'
+require 'pry'
 
 module Oxidized
   class SSHWrapper
@@ -17,7 +18,7 @@ module Oxidized
         @verbose = options[:verbose]
         @debug = options[:debug]
         @prompt = options[:prompt]
-        @exec = options[:exec]
+        @exec = options[:exec] || false
         @pty_options = options[:pty_options] ||= { term: "vt100" }
         @port = options[:port] ||= 22
         @output = String.new
@@ -37,7 +38,7 @@ module Oxidized
         exec(params, expect)
         sanitize_output_buffer("\n", /\r\n/)
         sanitize_output_buffer('', params)
-	binding.pry
+	@logger.debug params
         @output
       end
       
@@ -61,11 +62,12 @@ module Oxidized
       end
       
       def send_data(params, expectation)
-        expect expectation
-        reset_output_buffer
+       # expect expectation
+        binding.pry
+	reset_output_buffer
         send(params)
         @session.process
-        expect expectation
+        expect expectation if expectation
         @output
       end
       
@@ -77,6 +79,7 @@ module Oxidized
         regexps = [regexps].flatten
         @logger.debug "expecting #{regexps.inspect} at #{@ip}" if @debug
         @connection.loop(0.1) do
+	  @logger.debug @output
           sleep 0.1
           match = regexps.find { |regexp| @output.match regexp }
           return match if match
@@ -96,19 +99,19 @@ module Oxidized
       def create_session
         @session = @connection.open_channel do |channel|
           setup_channels(channel)
-        end
+	end
       end
       
       def setup_channels(ch)
-        set_data_hook(ch)
+	set_data_hook(ch)
         request_channels(ch)
       end
       
       def set_data_hook(ch)
         ch.on_data do |_ch, data|
-          @logger.debug "received #{data}" if @debug
+          #@logger.debug "received #{data}" if @debug
           @output << data
-          @output = expectation_list_handler(@output) if @expectation_handler
+          #@output = expectation_list_handler(@output) if @expectation_handler
         end
       end
       
@@ -149,4 +152,5 @@ module Oxidized
       end
       
   end
+end
 end
