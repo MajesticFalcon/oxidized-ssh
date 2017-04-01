@@ -10,6 +10,8 @@ module Oxidized
       attr_reader :connection, :ip, :username, :password
       attr_reader :prompt, :debug, :exec, :pty_options
       attr_reader :port, :output, :session
+
+      attr_writer :login, :username_prompt, :password_prompt
       
       def initialize(options)
         @ip = options[:ip]
@@ -62,7 +64,6 @@ module Oxidized
       end
       
       def send_data(params, expectation)
-       # expect expectation
 	reset_output_buffer
         send(params)
         @session.process
@@ -89,8 +90,22 @@ module Oxidized
       def prep_connection
         return true if @exec
         start_channel_requests
+	login
       end
       
+      def login
+	if @login
+          match = expect @username_prompt, @prompt
+	  if match == @login_prompt
+  	    exec @username, @password_prompt
+	    exec @password
+          end
+        else
+	  expect @prompt
+	end
+	
+      end
+
       def start_channel_requests
         create_session
       end
