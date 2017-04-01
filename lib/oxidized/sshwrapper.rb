@@ -63,7 +63,6 @@ module Oxidized
       
       def send_data(params, expectation)
        # expect expectation
-        binding.pry
 	reset_output_buffer
         send(params)
         @session.process
@@ -152,5 +151,4 @@ module Oxidized
       end
       
   end
-end
 end
