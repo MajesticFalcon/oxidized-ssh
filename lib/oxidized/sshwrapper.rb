@@ -41,7 +41,7 @@ module Oxidized
         exec(params, expect)
         sanitize_output_buffer("\n", /\r\n/)
         sanitize_output_buffer('', params)
-	@logger.debug params
+        @logger.debug params if @debug
         @output
       end
       
@@ -80,7 +80,7 @@ module Oxidized
         regexps = [regexps].flatten
         @logger.debug "expecting #{regexps.inspect} at #{@ip}" if @debug
         @connection.loop(0.1) do
-	  @logger.debug @output
+	  @logger.debug @output if @debug
           sleep 0.1
           match = regexps.find { |regexp| @output.match regexp }
           return match if match
@@ -126,7 +126,7 @@ module Oxidized
         ch.on_data do |_ch, data|
           #@logger.debug "received #{data}" if @debug
           @output << data
-          #@output = expectation_list_handler(@output) if @expectation_handler
+          @output = expectation_list_handler(@output) if @expectation_handler
         end
       end
       
