@@ -22,12 +22,13 @@ module Oxidized
         @port = options[:port] ||= 22
         @output = String.new
         @logger = options[:logger] ||= Logger.new(STDOUT)
+        @auth_methods = options[:auth_methods] ||= ["publickey", "hostbased", "password"]
         @expectation_handler = options[:expectation_handler]
       end
       
       def start
         raise "MissingSSHLibrary" if !defined? Net::SSH
-        @connection = Net::SSH.start(@ip, @username, password: @password, verbose: @verbose, port: @port)
+        @connection = Net::SSH.start(@ip, @username, password: @password, verbose: @verbose, port: @port, auth_methods: @auth_methods)
         return yield self if block_given?
         return (@connection and not @connection.closed?)
       end
