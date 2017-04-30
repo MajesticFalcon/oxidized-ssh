@@ -29,6 +29,7 @@ module Oxidized
         @auth_methods = options[:auth_methods] ||= ["publickey", "hostbased", "password"]
         @expectation_handler = options[:expectation_handler]
 	@proxy = prep_proxy(options[:proxy])
+	@paranoid = options[:paranoid] ||= false
       end
       
       def prep_proxy(proxy)
@@ -42,7 +43,7 @@ module Oxidized
 
       def start
         raise "MissingSSHLibrary" if !defined? Net::SSH
-        @connection = Net::SSH.start(@ip, @username, password: @password, verbose: @verbose, port: @port, auth_methods: @auth_methods, proxy: @proxy)
+        @connection = Net::SSH.start(@ip, @username, password: @password, verbose: @verbose, port: @port, auth_methods: @auth_methods, proxy: @proxy, paranoid: @paranoid)
         return yield self if block_given?
         return (@connection and not @connection.closed?)
       end
