@@ -27,11 +27,12 @@ module Oxidized
         @output = String.new
         @logger = options[:logger] ||= Logger.new(STDOUT)
         @expectation_handler = options[:expectation_handler]
+	@proxy = options[:proxy]
       end
       
       def start
         raise "MissingSSHLibrary" if !defined? Net::SSH
-        @connection = Net::SSH.start(@ip, @username, password: @password, verbose: @verbose, port: @port)
+        @connection = Net::SSH.start(@ip, @username, password: @password, verbose: @verbose, port: @port, proxy: @proxy)
         return yield self if block_given?
         return (@connection and not @connection.closed?)
       end
