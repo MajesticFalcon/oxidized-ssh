@@ -44,6 +44,7 @@ module Oxidized
       def start
         raise "MissingSSHLibrary" if !defined? Net::SSH
         @connection = Net::SSH.start(@ip, @username, password: @password, verbose: @verbose, port: @port, auth_methods: @auth_methods, proxy: @proxy, paranoid: @paranoid)
+	check_for_connection
         return yield self if block_given?
         return (@connection and not @connection.closed?)
       end
