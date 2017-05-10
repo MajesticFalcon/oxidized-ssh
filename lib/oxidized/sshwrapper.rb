@@ -1,8 +1,6 @@
 require_relative "ssh/version"
 require 'net/ssh'
 require 'timeout'
-require 'awesome_print'
-require 'pry'
 
 module Oxidized
   class SSHWrapper
@@ -86,7 +84,7 @@ module Oxidized
       end
       
       def send(params)
-        @session.send_data params
+        @session.send_data params =~ /\n/ ? params : "#{params}\n" 
       end
       
       def expect *regexps
