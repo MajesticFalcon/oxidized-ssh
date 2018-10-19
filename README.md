@@ -19,6 +19,8 @@ And then execute:
 Or install it yourself as:
 
     $ gem install oxidized-ssh
+    
+require 'oxidized/sshwrapper'
 
 ## Usage
 ```
