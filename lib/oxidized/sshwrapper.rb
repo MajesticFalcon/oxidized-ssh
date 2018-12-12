@@ -33,7 +33,7 @@ module Oxidized
       def prep_proxy(proxy)
         if proxy_host = proxy
           proxy_command = "ssh "
-          proxy_command += "-o StrictHostKeyChecking=no " #unless secure
+          proxy_command += "-o StrictHostKeyChecking=no " unless secure
           proxy_command += "#{proxy_host} -W %h:%p"
           return Net::SSH::Proxy::Command.new(proxy_command)
         end
