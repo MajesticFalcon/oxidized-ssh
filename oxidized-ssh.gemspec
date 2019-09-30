@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.require_path      = 'lib'
   s.files            = ["lib/oxidized/sshwrapper.rb", "lib/oxidized/ssh/version.rb"]
   s.required_ruby_version =           '>= 2.0.0'
-  s.add_runtime_dependency 'net-ssh', '~> 3.0.2'
+  s.add_runtime_dependency 'net-ssh', '>= 3.0.2'
 
   if defined?(RUBY_VERSION) && RUBY_VERSION > '2.3'
       s.add_runtime_dependency 'net-telnet', '~> 0'
